@@ -56,7 +56,7 @@
     $ minikube dashboard
 ##### * 주의사항
 <div align="center">
-<img src="[https://user-images.githubusercontent.com/54494793/170031469-b43a1d1a-3486-4df5-a4ad-d8258631a3a5.jpg](https://user-images.githubusercontent.com/54494793/170822639-e9013849-9e5b-4a39-a38d-b31c20a7993c.png)" width="100%" height="100%" style="border-radius:5%;">
+<img src="https://user-images.githubusercontent.com/54494793/170031469-b43a1d1a-3486-4df5-a4ad-d8258631a3a5.jpg](https://user-images.githubusercontent.com/54494793/170822639-e9013849-9e5b-4a39-a38d-b31c20a7993c.png" width="100%" height="100%" style="border-radius:5%;">
 </div>
 #### Exiting due to HOST_BROWSER: failed to open browser: exit status 1 
 #### -> 맥의 기본 브라우저를 chrom에서 safari로 바꾸면 해결됨.
