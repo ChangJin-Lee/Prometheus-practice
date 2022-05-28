@@ -58,6 +58,7 @@
 <div align="center">
 <img src="https://user-images.githubusercontent.com/54494793/170822639-e9013849-9e5b-4a39-a38d-b31c20a7993c.png" width="100%" height="100%" style="border-radius:5%;">
 </div>
+</br>
 #### Exiting due to HOST_BROWSER: failed to open browser: exit status 1 
 #### -> 맥의 기본 브라우저를 chrom에서 safari로 바꾸면 해결됨.
 
