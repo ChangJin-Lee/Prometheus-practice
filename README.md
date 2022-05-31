@@ -1,7 +1,7 @@
 # Prometheus-practice
  모니터링 프로메테우스 연습
-#### * Progress in macOS Monterey 12.3.1
-#### * Hardware is MacBook Pro (15-inch, 2016)
+#### * Progress in macOS Monterey 12.3.1 and ubuntu 20.04
+#### * Hardware is MacBook Pro (15-inch, 2016) and hp laptop
 
  # 필요한 소프트웨어
  ## 1. [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
