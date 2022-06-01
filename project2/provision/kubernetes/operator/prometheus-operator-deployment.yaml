@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -19,9 +19,9 @@ spec:
       - args:
         - --kubelet-service=kube-system/kubelet
         - --logtostderr=true
-        - --config-reloader-image=quay.io/coreos/configmap-reload:v0.0.1
-        - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:v0.29.0
-        image: quay.io/coreos/prometheus-operator:v0.29.0
+        - --config-reloader-image=quay.io/coreos/configmap-reload:v0.3.0
+        - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:v0.56.3
+        image: quay.io/coreos/prometheus-operator:v0.56.3
         name: prometheus-operator
         ports:
         - containerPort: 8080
@@ -37,7 +37,7 @@ spec:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
       nodeSelector:
-        beta.kubernetes.io/os: linux
+        kubernetes.io/os: linux
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534

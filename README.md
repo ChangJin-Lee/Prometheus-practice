@@ -52,6 +52,7 @@
     $ minikube delete
 ##### 2.미니쿠베 인스턴스 실행
     $ minikube start \ --cpus=2 \ --memory=2048 \ --kubernetes-version=="v1.23.3" \ --vm-driver=virtualbox
+    $ kubectl version --client (쿠버네티스 버전 확인)
 ##### 3. 쿠버네티스 대시보드 진입
     $ minikube dashboard
 ##### * 주의사항
@@ -64,8 +65,66 @@
 
 #### -> 맥의 기본 브라우저를 chrom에서 safari로 바꾸면 해결됨.
 
+##### 4. manifest를 사용해 새로운 모니터링 네임스페이스를 생성함
+    $ cd project2/provision/kubernetes/static
+    # apiVersion : v1
+    # kind: Namespace
+    # metadata:
+    #    name: monitoring
+    $ kubectl apply -f monitoring-namespace.yaml
+
+##### 5. kubernetes 대시보드에서 Namespace - monitoring 추가된 것 확인.
+
+
+#### 쿠버네티스에서 프로메테우스 서버 배포
+
+
+### (정적 환경설정)
+
+##### 1. 간단한 환경설정해주기
+    $ kubectl apply -f prometheus-configmap.yaml
+
+##### 2. 배포단계. 이전에 구성한 configmap을 pod에 마운트하기
+    $ kubectl apply -f prometheus-deployment.yaml
+
 ##### * 배포 상태 확인하기
     $ kubectl rollout status deployment/prometheus-deployment -n monitoring
 
 ##### * 프로메테우스의 인스턴스의 로그 확인하기
     $ kubectl logs --tail=20 -n monitoring -l app=prometheus
+
+##### 3. 별도의 포트포워딩 없이 접근하기
+    $ kubectl apply -f prometheus-service.yaml
+
+##### 4. 프로메테우스 웹 인터페이스에 연결하기
+    $ minikube service prometheus-service -n monitoring
+
+
+#### 쿠버네티스에서 프로메테우스 타깃 추가
+
+##### 1. Hey 애플리케이션 배포
+    $ kubectl apply -f hey-deployment.yaml
+
+##### 2. 프로메테우스 웹 인터페이스에 연결하기
+    $ minikube service prometheus-service -n monitoring
+    $ kubectl rollout status deployment/hey-deployment -n monitoring
+    $ kubectl logs --tail=20 -n monitoring -l app=hey
+##### 3. 매니페스트 적용
+    $ kubectl apply -f hey-service.yaml
+##### 4. hey 웹 인터페이스에 연결하기.
+    $ minikube service hey-service -n monitoring
+
+### (동적 환경설정)
+
+##### 1. monitoring-namespace 설정하기
+    $ cd project2/provision/kubernetes/operator
+    $ kubectl apply -f monitoring-namespace.yaml
+
+##### 2. 프로메테우스 오퍼레이터 배포
+    $ kubectl apply -f prometheus-operator-rbac.yaml
+
+##### 3. 새로운 계정 설정 후 추가 작업
+    $ kubectl apply -f prometheus-operator-deployment.yaml 
+    $ kubectl rollout status deployment/prometheus-operator -n monitoring
+
+

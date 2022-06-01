@@ -460,4 +460,37 @@
     "externalURL": "http://alertmanager:9093",
     "version": "4",
     "groupKey": "{}:{alertname=\"ExampleAlert\"}"
+}{
+    "receiver": "web\\.hook",
+    "status": "firing",
+    "alerts": [
+        {
+            "status": "firing",
+            "labels": {
+                "alertname": "ExampleAlert",
+                "severity": "critical"
+            },
+            "annotations": {
+                "description": "Example alert is firing.",
+                "link": "http://example.com"
+            },
+            "startsAt": "2022-06-01T03:45:11.355791953Z",
+            "endsAt": "0001-01-01T00:00:00Z",
+            "generatorURL": "http://prometheus:9090/graph?g0.expr=vector%2842%29&g0.tab=1"
+        }
+    ],
+    "groupLabels": {
+        "alertname": "ExampleAlert"
+    },
+    "commonLabels": {
+        "alertname": "ExampleAlert",
+        "severity": "critical"
+    },
+    "commonAnnotations": {
+        "description": "Example alert is firing.",
+        "link": "http://example.com"
+    },
+    "externalURL": "http://alertmanager:9093",
+    "version": "4",
+    "groupKey": "{}:{alertname=\"ExampleAlert\"}"
 }
