@@ -39,7 +39,8 @@
 
 
 
-2. 독립 실행형 서버에서 환경설정 적용 및 동시에 검증하기
+
+# 2. 독립 실행형 서버에서 환경설정 적용 및 동시에 검증하기
 
 #### 현재 환경설정 검증 (vagrant 로그인 이후에)
     $ cat /etc/systemd/system/prometheus.service
@@ -158,4 +159,20 @@
 ##### 5. 서비스 모니터 pod 배포 상태 나타내기
     $ kubectl get servicemonitors --all-namespaces
     
+
+# 3. 익스포터에 통합해 OS, ICMP 매트릭 관리하기
+#### vagrant up 으로 target01과 prometheus 인스턴스 각각 확인하기
+
+#### 쿠버네티스 테스트 환경만들기
+##### 1. minikube 실행
+    $ minikube status
+    $ minikube delete
+    $ minikube start
+##### 2. 프로메테우스 오퍼레이터 배포
+    $ kubectl apply -f ./provision/kubernetes/operator/bootstrap/
+    $ kubectl rollout status deployment/prometheus-operator -n monitoring
+
+
+
+
 
