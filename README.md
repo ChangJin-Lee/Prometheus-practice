@@ -51,7 +51,7 @@
     $ minikube status
     $ minikube delete
 ##### 2.미니쿠베 인스턴스 실행
-    $ minikube start \ --cpus=2 \ --memory=2048 \ --kubernetes-version=="v1.23.3" \ --vm-driver=virtualbox
+    $ minikube start \ --cpus=2 \ --memory=2048 \ --kubernetes-version=="v1.14.0" \ --vm-driver=virtualbox
     $ kubectl version --client (쿠버네티스 버전 확인)
 ##### 3. 쿠버네티스 대시보드 진입
     $ minikube dashboard
@@ -82,6 +82,7 @@
 ### (정적 환경설정)
 
 ##### 1. 간단한 환경설정해주기
+    $ cd project2/provision/kubernetes/operator/
     $ kubectl apply -f prometheus-configmap.yaml
 
 ##### 2. 배포단계. 이전에 구성한 configmap을 pod에 마운트하기
@@ -106,13 +107,18 @@
     $ kubectl apply -f hey-deployment.yaml
 
 ##### 2. 프로메테우스 웹 인터페이스에 연결하기
-    $ minikube service prometheus-service -n monitoring
     $ kubectl rollout status deployment/hey-deployment -n monitoring
     $ kubectl logs --tail=20 -n monitoring -l app=hey
 ##### 3. 매니페스트 적용
     $ kubectl apply -f hey-service.yaml
 ##### 4. hey 웹 인터페이스에 연결하기.
     $ minikube service hey-service -n monitoring
+##### 5. hey의 매트릭 수집을 위해 정적 타깃으로 추가해야 함.
+    $ kubectl create -f prometheus-configmap-update.yaml -o yaml --dry-run | kubectl apply -f -
+##### 6. 배포버전 어노테이션 적용.
+    $ kubectl apply -f prometheus-deployment-update.yaml
+##### 7. 배포 상태 확인
+    $ kubectl rollout status deployment/prometheus-deployment -n monitoring
 
 ### (동적 환경설정)
 
@@ -127,4 +133,29 @@
     $ kubectl apply -f prometheus-operator-deployment.yaml 
     $ kubectl rollout status deployment/prometheus-operator -n monitoring
 
+#### 프로메테우스 서버 배포
+##### 1. 올바른 액세스 제어 권한을 가진 인스턴스를 부여
+    $ kubectl apply -f prometheus-tbac.yaml
+##### 2. 서버 배포
+    $ kubectl apply -f prometheus-server.yaml
+##### 3. 배포 상태 확인
+    $ kubectl rollout status statefulset/prometheus-k8s -n monitoring
+##### 4. 새로운 서비스 생성 및 웹 인터페이스 시작
+    $ kubectl apply -f prometheus-service.yaml
+    $ minikube service prometheus-service -n monitoring
+
+#### 프로메테우스 타깃 추가
+##### 1. hey를 통해 사용 가능한 타깃의 수 늘리기
+    $ kubectl apply -f hey-deployment.yaml
+    $ kubectl rollout status deployment/hey-deployment -n monitoring
+##### 2. 서비스 모니터에서 참조하는 레이블에 주의
+    $ kubectl apply -f hey-service.yaml
+##### 3. 서비스 실행
+    $ minikube service hey-service -n default
+##### 4. hey 애플리케이션에 대한 서비스 모니터 생성
+    $ kubectl apply -f prometheus-servicemonitor.yaml
+    $ kubectl apply -f hey-servicemonitor.yaml
+##### 5. 서비스 모니터 pod 배포 상태 나타내기
+    $ kubectl get servicemonitors --all-namespaces
+    
 
