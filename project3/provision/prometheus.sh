@@ -23,8 +23,8 @@ install -m 0644 -D -t /usr/share/prometheus/consoles $TMPD/consoles/*
 install -m 0644 -D -t /usr/share/prometheus/console_libraries $TMPD/console_libraries/*
 install -m 0755 $TMPD/prometheus $TMPD/promtool /usr/bin/
 install -d -o prometheus -g prometheus /var/lib/prometheus
-install -m 0644 /vagrant/chapter06/configs/prometheus/prometheus.service /etc/systemd/system/
-install -m 0644 -D /vagrant/chapter06/configs/prometheus/prometheus.yml /etc/prometheus/prometheus.yml
+install -m 0644 /vagrant/project3/configs/prometheus/prometheus.service /etc/systemd/system/
+install -m 0644 -D /vagrant/project3/configs/prometheus/prometheus.yml /etc/prometheus/prometheus.yml
 
 systemctl daemon-reload
 systemctl enable prometheus

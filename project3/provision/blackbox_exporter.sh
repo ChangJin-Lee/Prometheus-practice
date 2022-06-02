@@ -19,8 +19,8 @@ fi
 tar zxf "${CACHE_PATH}/${ARCHIVE}" -C /usr/bin --strip-components=1 --wildcards */blackbox_exporter
 
 install -d -m 0755 -o blackbox_exporter -g blackbox_exporter /etc/blackbox_exporter/
-install -m 0644 -D /vagrant/chapter06/configs/blackbox_exporter/blackbox.yml /etc/blackbox_exporter/blackbox.yml
-install -m 0644 /vagrant/chapter06/configs/blackbox_exporter/blackbox-exporter.service /etc/systemd/system/
+install -m 0644 -D /vagrant/project3/configs/blackbox_exporter/blackbox.yml /etc/blackbox_exporter/blackbox.yml
+install -m 0644 /vagrant/project3/configs/blackbox_exporter/blackbox-exporter.service /etc/systemd/system/
 # ICMP probe requires access to raw sockets
 setcap cap_net_raw+ep /usr/bin/blackbox_exporter
 
